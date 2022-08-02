@@ -32,24 +32,6 @@ import org.springframework.util.FileCopyUtils;
  */
 public class ClassPathXmlApplicationContextTestSuite extends TestCase {
 
-	public void testMultipleConfigLocations() throws Exception {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				new String[] {"/org/springframework/context/support/contextB.xml",
-											"/org/springframework/context/support/contextC.xml",
-											"/org/springframework/context/support/contextA.xml"});
-		assertTrue(ctx.containsBean("service"));
-		assertTrue(ctx.containsBean("logicOne"));
-		assertTrue(ctx.containsBean("logicTwo"));
-	}
-
-	public void testConfigLocationPattern() throws Exception {
-		ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext(
-				"/org/springframework/context/support/context*.xml");
-		assertTrue(ctx.containsBean("service"));
-		assertTrue(ctx.containsBean("logicOne"));
-		assertTrue(ctx.containsBean("logicTwo"));
-	}
-
 	public void testResourceAndInputStream() throws IOException {
 		ClassPathXmlApplicationContext ctx =
 		    new ClassPathXmlApplicationContext("/org/springframework/beans/factory/xml/resource.xml") {

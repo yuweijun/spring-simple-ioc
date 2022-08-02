@@ -183,15 +183,6 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertTrue(inherits.getAge() == 1);
 	}
 
-	public void testDependenciesMaterializeThis() throws Exception {
-		InputStream pis = getClass().getResourceAsStream("dependenciesMaterializeThis.xml");
-		XmlBeanFactory bf = new XmlBeanFactory(pis);
-		DummyBoImpl bos = (DummyBoImpl) bf.getBean("boSingleton");
-		DummyBoImpl bop = (DummyBoImpl) bf.getBean("boPrototype");
-		assertNotSame(bos, bop);
-		assertEquals(bos.dao, bop.dao);
-	}
-
 	public void testChildOverridesParentBean() throws Exception {
 		XmlBeanFactory parent = new XmlBeanFactory(new ClassPathResource("parent.xml", getClass()));
 		XmlBeanFactory child = new XmlBeanFactory(new ClassPathResource("child.xml", getClass()), parent);
@@ -615,10 +606,6 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		assertTrue(InitAndIB.constructed);
 		assertTrue(iib.afterPropertiesSetInvoked && iib.initMethodInvoked);
 		assertTrue(!iib.destroyed && !iib.customDestroyed);
-		xbf.destroySingletons();
-		assertTrue(iib.destroyed && iib.customDestroyed);
-		xbf.destroySingletons();
-		assertTrue(iib.destroyed && iib.customDestroyed);
 	}
 
 	/**
@@ -1028,27 +1015,6 @@ public class XmlBeanFactoryTestSuite extends TestCase {
 		mapFactory.afterPropertiesSet();
 		assertTrue(mapFactory.getObject() instanceof HashMap);
 	}
-
-	public void testResourceAndInputStream() throws IOException {
-		InputStream is = getClass().getResourceAsStream("resource.xml");
-		XmlBeanFactory xbf = new XmlBeanFactory(is);
-		ResourceTestBean resource1 = (ResourceTestBean) xbf.getBean("resource1");
-		ResourceTestBean resource2 = (ResourceTestBean) xbf.getBean("resource2");
-		assertTrue(resource1.getResource() instanceof ClassPathResource);
-		StringWriter writer = new StringWriter();
-		FileCopyUtils.copy(new InputStreamReader(resource1.getResource().getInputStream()), writer);
-		assertEquals("test", writer.toString());
-		writer = new StringWriter();
-		FileCopyUtils.copy(new InputStreamReader(resource1.getInputStream()), writer);
-		assertEquals("test", writer.toString());
-		writer = new StringWriter();
-		FileCopyUtils.copy(new InputStreamReader(resource2.getResource().getInputStream()), writer);
-		assertEquals("test", writer.toString());
-		writer = new StringWriter();
-		FileCopyUtils.copy(new InputStreamReader(resource2.getInputStream()), writer);
-		assertEquals("test", writer.toString());
-	}
-
 
 	public static class BadInitializer {
 
