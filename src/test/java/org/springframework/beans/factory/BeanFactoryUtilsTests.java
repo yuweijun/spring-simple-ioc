@@ -28,7 +28,6 @@ import org.springframework.beans.TestBean;
 import org.springframework.beans.factory.support.StaticListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.servlet.HandlerAdapter;
 
 /**
  * @author Rod Johnson
@@ -72,11 +71,6 @@ public class BeanFactoryUtilsTests extends TestCase {
 		assertEquals(2, names.size());
 		assertTrue(names.contains("test"));
 		assertTrue(names.contains("test3"));
-	}
-
-	public void testHierarchicalNamesWithNoMatch() throws Exception {
-		List names = Arrays.asList(BeanFactoryUtils.beanNamesIncludingAncestors(this.listableFactory, HandlerAdapter.class));
-		assertEquals(0, names.size());
 	}
 
 	public void testHierarchicalNamesWithMatchOnlyInRoot() throws Exception {
