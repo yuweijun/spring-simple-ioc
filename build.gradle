@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation fileTree('lib')
+
+    // implementation 'spring:spring-core:1.0.2'
+    // implementation 'log4j:log4j:1.2.8'
+    // implementation 'junit:junit:3.8.1'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_1_6
+targetCompatibility = JavaVersion.VERSION_1_6
