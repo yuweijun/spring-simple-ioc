@@ -26,7 +26,6 @@ import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.beans.IOther;
 import org.springframework.beans.ITestBean;
 import org.springframework.beans.TestBean;
-import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.util.StringUtils;
 
 /**
@@ -249,8 +248,7 @@ public class ProxyFactoryTests extends TestCase {
 		assertTrue(factory.interceptorIncluded(di));
 		assertTrue(!factory.interceptorIncluded(diUnused));
 		assertTrue(factory.countInterceptorsOfType(NopInterceptor.class) == 1);
-		assertTrue(factory.countInterceptorsOfType(TransactionInterceptor.class) == 0);
-	
+
 		factory.addInterceptor(0, diUnused);
 		assertTrue(factory.interceptorIncluded(diUnused));
 		assertTrue(factory.countInterceptorsOfType(NopInterceptor.class) == 2);
