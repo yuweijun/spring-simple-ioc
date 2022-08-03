@@ -22,6 +22,7 @@ import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
+import org.springframework.lang.Nullable;
 
 /** 
  * Root bean definitions have a class plus optionally constructor argument
@@ -71,6 +72,10 @@ public class RootBeanDefinition extends AbstractBeanDefinition {
 
 	private String destroyMethodName;
 
+	public RootBeanDefinition(@Nullable Class<?> beanClass) {
+		super(null);
+		this.beanClass = beanClass;
+	}
 
 	/**
 	 * Create a new RootBeanDefinition for a singleton,
