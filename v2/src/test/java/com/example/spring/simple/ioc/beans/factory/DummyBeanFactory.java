@@ -1,6 +1,5 @@
 package com.example.spring.simple.ioc.beans.factory;
 
-import com.example.spring.simple.ioc.beans.TestBean;
 
 import java.util.HashMap;
 import java.util.Map;

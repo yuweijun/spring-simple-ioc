@@ -4,6 +4,6 @@ import com.example.spring.simple.ioc.beans.BeansException;
 
 public interface BeanFactoryAware {
 
-	void setBeanFactory(BeanFactory beanFactory) throws BeansException;
+    void setBeanFactory(BeanFactory beanFactory) throws BeansException;
 
 }

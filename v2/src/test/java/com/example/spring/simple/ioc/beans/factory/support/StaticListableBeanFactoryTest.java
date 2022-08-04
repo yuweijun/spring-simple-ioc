@@ -4,7 +4,6 @@ import com.example.spring.simple.ioc.beans.TestBean;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -18,7 +17,6 @@ public class StaticListableBeanFactoryTest {
         beanFactory = new StaticListableBeanFactory();
         final TestBean bean = new TestBean();
         bean.setName("bean name");
-        bean.setList(new ArrayList<>());
         beanFactory.addBean("testBean1", bean);
         beanFactory.addBean("testBean2", bean);
         beanFactory.addBean("strBean", new String());

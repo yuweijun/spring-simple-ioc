@@ -37,28 +37,34 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
      */
     public static final String FACTORY_BEAN_PREFIX = "&";
 
-
-    /** Logger available to subclasses */
+    /**
+     * Logger available to subclasses
+     */
     protected final Log logger = LogFactory.getLog(getClass());
-
-    /** Parent bean factory, for bean inheritance support */
-    private BeanFactory parentBeanFactory;
-
-    /** Custom PropertyEditors to apply to the beans of this factory */
-    private Map customEditors = new HashMap();
-
-    /** Dependency types to ignore on dependency check and autowire */
+    /**
+     * Dependency types to ignore on dependency check and autowire
+     */
     private final Set ignoreDependencyTypes = new HashSet();
-
-    /** BeanPostProcessors to apply in createBean */
+    /**
+     * BeanPostProcessors to apply in createBean
+     */
     private final List beanPostProcessors = new ArrayList();
-
-    /** Map from alias to canonical bean name */
+    /**
+     * Map from alias to canonical bean name
+     */
     private final Map aliasMap = Collections.synchronizedMap(new HashMap());
-
-    /** Cache of singletons: bean name --> bean instance */
+    /**
+     * Cache of singletons: bean name --> bean instance
+     */
     private final Map singletonCache = Collections.synchronizedMap(new HashMap());
-
+    /**
+     * Parent bean factory, for bean inheritance support
+     */
+    private BeanFactory parentBeanFactory;
+    /**
+     * Custom PropertyEditors to apply to the beans of this factory
+     */
+    private final Map customEditors = new HashMap();
 
     /**
      * Create a new AbstractBeanFactory.
@@ -69,6 +75,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 
     /**
      * Create a new AbstractBeanFactory with the given parent.
+     *
      * @param parentBeanFactory parent bean factory, or null if none
      * @see #getBean
      */
@@ -77,14 +84,13 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         this.parentBeanFactory = parentBeanFactory;
     }
 
-
     //---------------------------------------------------------------------
     // Implementation of BeanFactory
     //---------------------------------------------------------------------
 
     /**
-     * Return the bean with the given name,
-     * checking the parent bean factory if not found.
+     * Return the bean with the given name, checking the parent bean factory if not found.
+     *
      * @param name name of the bean to retrieve
      */
     public Object getBean(String name) throws BeansException {
@@ -96,14 +102,12 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
                 logger.debug("Returning cached instance of singleton bean '" + beanName + "'");
             }
             return getObjectForSharedInstance(name, sharedInstance);
-        }
-        else {
+        } else {
             // check if bean definition exists
             RootBeanDefinition mergedBeanDefinition = null;
             try {
                 mergedBeanDefinition = getMergedBeanDefinition(beanName, false);
-            }
-            catch (NoSuchBeanDefinitionException ex) {
+            } catch (NoSuchBeanDefinitionException ex) {
                 // not found -> check parent
                 if (this.parentBeanFactory != null) {
                     return this.parentBeanFactory.getBean(name);
@@ -122,8 +126,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
                     }
                 }
                 return getObjectForSharedInstance(name, sharedInstance);
-            }
-            else {
+            } else {
                 return createBean(name, mergedBeanDefinition);
             }
         }
@@ -144,13 +147,11 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         }
         if (containsBeanDefinition(beanName)) {
             return true;
-        }
-        else {
+        } else {
             // not found -> check parent
             if (this.parentBeanFactory != null) {
                 return this.parentBeanFactory.containsBean(beanName);
-            }
-            else {
+            } else {
                 return false;
             }
         }
@@ -165,8 +166,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
             if (beanInstance != null) {
                 beanClass = beanInstance.getClass();
                 singleton = true;
-            }
-            else {
+            } else {
                 RootBeanDefinition bd = getMergedBeanDefinition(beanName, false);
                 beanClass = bd.getBeanClass();
                 singleton = bd.isSingleton();
@@ -175,12 +175,10 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
             if (FactoryBean.class.isAssignableFrom(beanClass) && !isFactoryDereference(name)) {
                 FactoryBean factoryBean = (FactoryBean) getBean(FACTORY_BEAN_PREFIX + beanName);
                 return factoryBean.isSingleton();
-            }
-            else {
+            } else {
                 return singleton;
             }
-        }
-        catch (NoSuchBeanDefinitionException ex) {
+        } catch (NoSuchBeanDefinitionException ex) {
             // not found -> check parent
             if (this.parentBeanFactory != null) {
                 return this.parentBeanFactory.isSingleton(beanName);
@@ -195,15 +193,14 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         if (this.singletonCache.containsKey(beanName) || containsBeanDefinition(beanName)) {
             // if found, gather aliases
             List aliases = new ArrayList();
-            for (Iterator it = this.aliasMap.entrySet().iterator(); it.hasNext();) {
+            for (Iterator it = this.aliasMap.entrySet().iterator(); it.hasNext(); ) {
                 Map.Entry entry = (Map.Entry) it.next();
                 if (entry.getValue().equals(beanName)) {
                     aliases.add(entry.getKey());
                 }
             }
             return (String[]) aliases.toArray(new String[aliases.size()]);
-        }
-        else {
+        } else {
             // not found -> check parent
             if (this.parentBeanFactory != null) {
                 return this.parentBeanFactory.getAliases(beanName);
@@ -212,7 +209,6 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         }
     }
 
-
     //---------------------------------------------------------------------
     // Implementation of HierarchicalBeanFactory
     //---------------------------------------------------------------------
@@ -220,7 +216,6 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
     public BeanFactory getParentBeanFactory() {
         return parentBeanFactory;
     }
-
 
     //---------------------------------------------------------------------
     // Implementation of ConfigurableBeanFactory
@@ -235,8 +230,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
     }
 
     /**
-     * Return the map of custom editors, with Classes as keys
-     * and PropertyEditors as values.
+     * Return the map of custom editors, with Classes as keys and PropertyEditors as values.
      */
     public Map getCustomEditors() {
         return customEditors;
@@ -258,8 +252,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
     }
 
     /**
-     * Return the list of BeanPostProcessors that will get applied
-     * to beans created with this factory.
+     * Return the list of BeanPostProcessors that will get applied to beans created with this factory.
      */
     public List getBeanPostProcessors() {
         return beanPostProcessors;
@@ -295,7 +288,8 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
      * Add the given singleton object to the singleton cache of this factory.
      * <p>To be called for eager registration of singletons, e.g. to be able to
      * resolve circular references.
-     * @param beanName the name of the bean
+     *
+     * @param beanName        the name of the bean
      * @param singletonObject the singleton object
      */
     protected void addSingleton(String beanName, Object singletonObject) {
@@ -305,6 +299,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
     /**
      * Remove the bean with the given name from the singleton cache of this factory.
      * <p>To be able to clean up eager registration of a singleton if creation failed.
+     *
      * @param beanName the name of the bean
      */
     protected void removeSingleton(String beanName) {
@@ -317,15 +312,15 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         }
         synchronized (this.singletonCache) {
             Set singletonCacheKeys = new HashSet(this.singletonCache.keySet());
-            for (Iterator it = singletonCacheKeys.iterator(); it.hasNext();) {
+            for (Iterator it = singletonCacheKeys.iterator(); it.hasNext(); ) {
                 destroySingleton((String) it.next());
             }
         }
     }
 
     /**
-     * Destroy the given bean. Delegates to destroyBean if a corresponding
-     * singleton instance is found.
+     * Destroy the given bean. Delegates to destroyBean if a corresponding singleton instance is found.
+     *
      * @param beanName name of the bean
      * @see #destroyBean
      */
@@ -336,14 +331,12 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         }
     }
 
-
     //---------------------------------------------------------------------
     // Implementation methods
     //---------------------------------------------------------------------
 
     /**
-     * Return the bean name, stripping out the factory dereference prefix if necessary,
-     * and resolving aliases to canonical names.
+     * Return the bean name, stripping out the factory dereference prefix if necessary, and resolving aliases to canonical names.
      */
     protected String transformedBeanName(String name) throws NoSuchBeanDefinitionException {
         if (name == null) {
@@ -358,33 +351,30 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
     }
 
     /**
-     * Return whether this name is a factory dereference
-     * (beginning with the factory dereference prefix).
+     * Return whether this name is a factory dereference (beginning with the factory dereference prefix).
      */
     protected boolean isFactoryDereference(String name) {
         return name.startsWith(FACTORY_BEAN_PREFIX);
     }
 
     /**
-     * Initialize the given BeanWrapper with the custom editors registered
-     * with this factory.
+     * Initialize the given BeanWrapper with the custom editors registered with this factory.
+     *
      * @param bw the BeanWrapper to initialize
      */
     protected void initBeanWrapper(BeanWrapper bw) {
-        for (Iterator it = this.customEditors.keySet().iterator(); it.hasNext();) {
+        for (Iterator it = this.customEditors.keySet().iterator(); it.hasNext(); ) {
             Class clazz = (Class) it.next();
             bw.registerCustomEditor(clazz, (PropertyEditor) this.customEditors.get(clazz));
         }
     }
 
     /**
-     * Return the names of beans in the singleton cache that match the given
-     * object type (including subclasses). Will <i>not</i> consider FactoryBeans
-     * as the type of their created objects is not known before instantiation.
+     * Return the names of beans in the singleton cache that match the given object type (including subclasses). Will <i>not</i> consider FactoryBeans as the type of their created objects is not known before instantiation.
      * <p>Does not consider any hierarchy this factory may participate in.
+     *
      * @param type class or interface to match, or null for all bean names
-     * @return the names of beans in the singleton cache that match the given
-     * object type (including subclasses), or an empty array if none
+     * @return the names of beans in the singleton cache that match the given object type (including subclasses), or an empty array if none
      */
     public String[] getSingletonNames(Class type) {
         Set keys = this.singletonCache.keySet();
@@ -401,9 +391,9 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
     }
 
     /**
-     * Get the object for the given shared bean, either the bean
-     * instance itself or its created object in case of a FactoryBean.
-     * @param name name that may include factory dereference prefix
+     * Get the object for the given shared bean, either the bean instance itself or its created object in case of a FactoryBean.
+     *
+     * @param name         name that may include factory dereference prefix
      * @param beanInstance the shared bean instance
      * @return the singleton instance of the bean
      */
@@ -428,16 +418,14 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
                 }
                 try {
                     beanInstance = factory.getObject();
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new BeanCreationException(beanName, "FactoryBean threw exception on object creation", ex);
                 }
                 if (beanInstance == null) {
                     throw new FactoryBeanCircularReferenceException(
                         beanName, "FactoryBean returned null object: not fully initialized due to circular bean reference");
                 }
-            }
-            else {
+            } else {
                 // the user wants the factory itself
                 if (logger.isDebugEnabled()) {
                     logger.debug("Calling code asked for FactoryBean instance for name '" + beanName + "'");
@@ -449,20 +437,18 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
     }
 
     /**
-     * Return a RootBeanDefinition, even by traversing parent if the parameter is a child definition.
-     * Will ask the parent bean factory if not found in this instance.
+     * Return a RootBeanDefinition, even by traversing parent if the parameter is a child definition. Will ask the parent bean factory if not found in this instance.
+     *
      * @return a merged RootBeanDefinition with overridden properties
      */
     public RootBeanDefinition getMergedBeanDefinition(String beanName, boolean includingAncestors)
         throws BeansException {
         try {
             return getMergedBeanDefinition(beanName, getBeanDefinition(beanName));
-        }
-        catch (NoSuchBeanDefinitionException ex) {
+        } catch (NoSuchBeanDefinitionException ex) {
             if (includingAncestors && getParentBeanFactory() instanceof AbstractBeanFactory) {
                 return ((AbstractBeanFactory) getParentBeanFactory()).getMergedBeanDefinition(beanName, true);
-            }
-            else {
+            } else {
                 throw ex;
             }
         }
@@ -470,24 +456,21 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
 
     /**
      * Return a RootBeanDefinition, even by traversing parent if the parameter is a child definition.
+     *
      * @return a merged RootBeanDefinition with overridden properties
      */
     protected RootBeanDefinition getMergedBeanDefinition(String beanName, BeanDefinition bd) {
         if (bd instanceof RootBeanDefinition) {
             return (RootBeanDefinition) bd;
-        }
-
-        else if (bd instanceof ChildBeanDefinition) {
+        } else if (bd instanceof ChildBeanDefinition) {
             ChildBeanDefinition cbd = (ChildBeanDefinition) bd;
             RootBeanDefinition pbd = null;
             if (!beanName.equals(cbd.getParentName())) {
                 pbd = getMergedBeanDefinition(cbd.getParentName(), true);
-            }
-            else {
+            } else {
                 if (getParentBeanFactory() instanceof AbstractBeanFactory) {
                     pbd = ((AbstractBeanFactory) getParentBeanFactory()).getMergedBeanDefinition(cbd.getParentName(), true);
-                }
-                else {
+                } else {
                     throw new NoSuchBeanDefinitionException(cbd.getParentName(),
                         "Parent name '" + cbd.getParentName() +
                             "' is equal to bean name '" + beanName +
@@ -507,8 +490,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
             rbd.setResourceDescription(cbd.getResourceDescription());
 
             return rbd;
-        }
-        else {
+        } else {
             throw new BeanDefinitionStoreException(bd.getResourceDescription(), beanName,
                 "Definition is neither a RootBeanDefinition nor a ChildBeanDefinition");
         }
@@ -519,9 +501,8 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
     //---------------------------------------------------------------------
 
     /**
-     * Check if this bean factory contains a bean definition with the given name.
-     * Does not consider any hierarchy this factory may participate in.
-     * Invoked by containsBean when no cached singleton instance is found.
+     * Check if this bean factory contains a bean definition with the given name. Does not consider any hierarchy this factory may participate in. Invoked by containsBean when no cached singleton instance is found.
+     *
      * @param beanName the name of the bean to look for
      * @return if this bean factory contains a bean definition with the given name
      * @see #containsBean
@@ -529,27 +510,23 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
     public abstract boolean containsBeanDefinition(String beanName);
 
     /**
-     * Return the bean definition for the given bean name.
-     * Subclasses should normally implement caching, as this method is invoked
-     * by this class every time bean definition metadata is needed.
+     * Return the bean definition for the given bean name. Subclasses should normally implement caching, as this method is invoked by this class every time bean definition metadata is needed.
+     *
      * @param beanName name of the bean to find a definition for
      * @return the BeanDefinition for this prototype name. Must never return null.
-     * @throws NoSuchBeanDefinitionException
-     * if the bean definition cannot be resolved
-     * @throws BeansException in case of errors
+     * @throws NoSuchBeanDefinitionException if the bean definition cannot be resolved
+     * @throws BeansException                in case of errors
      * @see RootBeanDefinition
      * @see ChildBeanDefinition
      */
     public abstract BeanDefinition getBeanDefinition(String beanName) throws BeansException;
 
     /**
-     * Create a bean instance for the given bean definition.
-     * The bean definition will already have been merged with the parent
-     * definition in case of a child definition.
+     * Create a bean instance for the given bean definition. The bean definition will already have been merged with the parent definition in case of a child definition.
      * <p>All the other methods in this class invoke this method, although
-     * beans may be cached after being instantiated by this method. All bean
-     * instantiation within this class is performed by this method.
-     * @param beanName name of the bean
+     * beans may be cached after being instantiated by this method. All bean instantiation within this class is performed by this method.
+     *
+     * @param beanName             name of the bean
      * @param mergedBeanDefinition the bean definition for the bean
      * @return a new instance of the bean
      * @throws BeansException in case of errors
@@ -558,10 +535,10 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         throws BeansException;
 
     /**
-     * Destroy the given bean. Must destroy beans that depend on the given
-     * bean before the bean itself. Should not throw any exceptions.
+     * Destroy the given bean. Must destroy beans that depend on the given bean before the bean itself. Should not throw any exceptions.
+     *
      * @param beanName name of the bean
-     * @param bean the bean instance to destroy
+     * @param bean     the bean instance to destroy
      */
     protected abstract void destroyBean(String beanName, Object bean);
 

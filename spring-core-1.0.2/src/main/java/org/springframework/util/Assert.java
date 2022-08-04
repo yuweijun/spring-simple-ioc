@@ -2,11 +2,11 @@
 
 package org.springframework.util;
 
+import org.springframework.lang.Nullable;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import org.springframework.lang.Nullable;
 
 public abstract class Assert {
 
@@ -22,7 +22,6 @@ public abstract class Assert {
         }
     }
 
-    @Deprecated
     public static void state(boolean expression) {
         state(expression, "[Assertion failed] - this state invariant must be true");
     }

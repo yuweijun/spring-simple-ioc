@@ -4,6 +4,6 @@ import com.example.spring.simple.ioc.beans.BeansException;
 
 public interface DestructionAwareBeanPostProcessor extends BeanPostProcessor {
 
-	void postProcessBeforeDestruction(Object bean, String name) throws BeansException;
+    void postProcessBeforeDestruction(Object bean, String name) throws BeansException;
 
 }

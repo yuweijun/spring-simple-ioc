@@ -4,10 +4,10 @@ import com.example.spring.simple.ioc.beans.MutablePropertyValues;
 
 public interface BeanDefinition {
 
-	MutablePropertyValues getPropertyValues();
+    MutablePropertyValues getPropertyValues();
 
-	ConstructorArgumentValues getConstructorArgumentValues();
+    ConstructorArgumentValues getConstructorArgumentValues();
 
-	String getResourceDescription();
+    String getResourceDescription();
 
 }

@@ -69,7 +69,7 @@ public class StaticListableBeanFactory implements BeanFactory {
         for (Map.Entry<String, Object> entry : entries) {
             final String key = entry.getKey();
             final Object value = entry.getValue();
-            if (value !=null && value.equals(bean)) {
+            if (value != null && value.equals(bean)) {
                 aliases.add(key);
             }
         }

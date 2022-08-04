@@ -4,7 +4,7 @@ import com.example.spring.simple.ioc.beans.MutablePropertyValues;
 
 public class ChildBeanDefinition extends AbstractBeanDefinition {
 
-    private String parentName;
+    private final String parentName;
 
     public ChildBeanDefinition(String parentName, MutablePropertyValues pvs) {
         super(pvs);
