@@ -26,7 +26,7 @@ public class ConstructorArgumentValues {
      * @param value the argument value
      */
     public void addIndexedArgumentValue(int index, Object value) {
-        this.indexedArgumentValues.put(new Integer(index), new ValueHolder(value));
+        this.indexedArgumentValues.put(index, new ValueHolder(value));
     }
 
     /**
@@ -36,7 +36,7 @@ public class ConstructorArgumentValues {
      * @param value the argument value
      */
     public void addIndexedArgumentValue(int index, Object value, String type) {
-        this.indexedArgumentValues.put(new Integer(index), new ValueHolder(value, type));
+        this.indexedArgumentValues.put(index, new ValueHolder(value, type));
     }
 
     /**

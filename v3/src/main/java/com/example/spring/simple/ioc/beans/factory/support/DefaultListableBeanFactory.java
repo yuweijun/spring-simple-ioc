@@ -66,10 +66,12 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     // Implementation of ListableBeanFactory
     //---------------------------------------------------------------------
 
+    @Override
     public int getBeanDefinitionCount() {
         return this.beanDefinitionMap.size();
     }
 
+    @Override
     public String[] getBeanDefinitionNames() {
         return getBeanDefinitionNames(null);
     }
@@ -77,6 +79,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     /**
      * Note that this method is slow. Don't invoke it too often: it's best used only in application initialization.
      */
+    @Override
     public String[] getBeanDefinitionNames(Class type) {
         List matches = new ArrayList();
         Iterator it = this.beanDefinitionNames.iterator();
@@ -89,10 +92,12 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         return (String[]) matches.toArray(new String[matches.size()]);
     }
 
+    @Override
     public boolean containsBeanDefinition(String name) {
         return this.beanDefinitionMap.containsKey(name);
     }
 
+    @Override
     public Map getBeansOfType(Class type, boolean includePrototypes, boolean includeFactoryBeans)
         throws BeansException {
 
@@ -141,6 +146,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     // Implementation of ConfigurableListableBeanFactory
     //---------------------------------------------------------------------
 
+    @Override
     public void preInstantiateSingletons() throws BeansException {
         if (logger.isInfoEnabled()) {
             logger.info("Pre-instantiating singletons in factory [" + this + "]");
@@ -177,6 +183,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     // Implementation of BeanDefinitionRegistry
     //---------------------------------------------------------------------
 
+    @Override
     public void registerBeanDefinition(String name, BeanDefinition beanDefinition)
         throws BeanDefinitionStoreException {
         if (beanDefinition instanceof AbstractBeanDefinition) {
@@ -206,6 +213,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     // Implementation of superclass abstract methods
     //---------------------------------------------------------------------
 
+    @Override
     public BeanDefinition getBeanDefinition(String beanName) throws BeansException {
         BeanDefinition bd = (BeanDefinition) this.beanDefinitionMap.get(beanName);
         if (bd == null) {
@@ -214,6 +222,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         return bd;
     }
 
+    @Override
     protected String[] getDependingBeanNames(String beanName) throws BeansException {
         List dependingBeanNames = new ArrayList();
         String[] beanDefinitionNames = getBeanDefinitionNames();
@@ -234,10 +243,12 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         return (String[]) dependingBeanNames.toArray(new String[dependingBeanNames.size()]);
     }
 
+    @Override
     protected Map findMatchingBeans(Class requiredType) {
         return BeanFactoryUtils.beansOfTypeIncludingAncestors(this, requiredType, true, true);
     }
 
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer(getClass().getName());
         sb.append(" defining beans [" + StringUtils.arrayToDelimitedString(getBeanDefinitionNames(), ",") + "]");

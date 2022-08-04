@@ -123,7 +123,7 @@ public class DefaultListableBeanFactoryTest {
         p.setProperty(PREFIX + "test.class", "com.example.spring.simple.ioc.beans.TestBean");
         p.setProperty(PREFIX + "test.name", "Tony");
         p.setProperty(PREFIX + "test.age", "48");
-        //p.setProperty("
+
         int count = (new PropertiesBeanDefinitionReader(lbf)).registerBeanDefinitions(p, PREFIX);
         AssertionUtil.assertTrue("1 beans registered, not " + count, count == 1);
         testSingleTestBean(lbf);

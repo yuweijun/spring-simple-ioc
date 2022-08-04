@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC  "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean name="service" class="com.example.spring.simple.ioc.context.support.Service"/>
+
+	<bean name="assemblerOne" class="com.example.spring.simple.ioc.context.support.Assembler">
+		<property name="service"><ref bean="service"/></property>
+		<property name="logic"><ref bean="logicOne"/></property>
+	</bean>
+
+	<bean name="assemblerTwo" class="com.example.spring.simple.ioc.context.support.Assembler">
+		<property name="service"><ref bean="service"/></property>
+		<property name="logic"><ref bean="logicTwo"/></property>
+	</bean>
+
+	<bean name="transactionManager" class="com.example.spring.simple.ioc.transaction.CountingTxManager"/>
+
+	<bean name="wrappedAssemblerOne" class="com.example.spring.simple.ioc.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager"><ref bean="transactionManager"/></property>
+			<property name="target"><ref bean="assemblerOne"/></property>
+			<property name="proxyTargetClass"><value>true</value></property>
+			<property name="transactionAttributes">
+				<props>
+					<prop key="test">PROPAGATION_REQUIRED</prop>
+				</props>
+			</property>
+	</bean>
+
+	<bean name="wrappedAssemblerTwo" class="com.example.spring.simple.ioc.transaction.interceptor.TransactionProxyFactoryBean">
+		<property name="transactionManager"><ref bean="transactionManager"/></property>
+			<property name="target"><ref bean="assemblerTwo"/></property>
+			<property name="proxyTargetClass"><value>true</value></property>
+			<property name="transactionAttributes">
+				<props>
+					<prop key="test">PROPAGATION_REQUIRED</prop>
+				</props>
+			</property>
+	</bean>
+
+</beans>

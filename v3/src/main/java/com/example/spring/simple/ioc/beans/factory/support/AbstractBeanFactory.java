@@ -41,26 +41,32 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
      * Logger available to subclasses
      */
     protected final Log logger = LogFactory.getLog(getClass());
+
     /**
      * Dependency types to ignore on dependency check and autowire
      */
     private final Set ignoreDependencyTypes = new HashSet();
+
     /**
      * BeanPostProcessors to apply in createBean
      */
     private final List beanPostProcessors = new ArrayList();
+
     /**
      * Map from alias to canonical bean name
      */
     private final Map aliasMap = Collections.synchronizedMap(new HashMap());
+
     /**
      * Cache of singletons: bean name --> bean instance
      */
     private final Map singletonCache = Collections.synchronizedMap(new HashMap());
+
     /**
      * Parent bean factory, for bean inheritance support
      */
     private BeanFactory parentBeanFactory;
+
     /**
      * Custom PropertyEditors to apply to the beans of this factory
      */
@@ -93,6 +99,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
      *
      * @param name name of the bean to retrieve
      */
+    @Override
     public Object getBean(String name) throws BeansException {
         String beanName = transformedBeanName(name);
         // eagerly check singleton cache for manually registered singletons
@@ -132,6 +139,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         }
     }
 
+    @Override
     public Object getBean(String name, Class requiredType) throws BeansException {
         Object bean = getBean(name);
         if (!requiredType.isAssignableFrom(bean.getClass())) {
@@ -140,6 +148,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         return bean;
     }
 
+    @Override
     public boolean containsBean(String name) {
         String beanName = transformedBeanName(name);
         if (this.singletonCache.containsKey(beanName)) {
@@ -157,6 +166,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         }
     }
 
+    @Override
     public boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
         String beanName = transformedBeanName(name);
         try {
@@ -187,6 +197,7 @@ public abstract class AbstractBeanFactory implements ConfigurableBeanFactory, Hi
         }
     }
 
+    @Override
     public String[] getAliases(String name) throws NoSuchBeanDefinitionException {
         String beanName = transformedBeanName(name);
         // check if bean actually exists in this bean factory

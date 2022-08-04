@@ -42,16 +42,6 @@ import java.util.TreeSet;
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory
     implements AutowireCapableBeanFactory {
 
-    private static final String MANAGED_LINKED_MAP_CLASS_NAME =
-        "org.springframework.beans.factory.support.ManagedLinkedMap";
-
-    static {
-        // Eagerly load the DisposableBean class to avoid weird classloader
-        // issues on EJB shutdown within WebLogic 8.1's EJB container.
-        // (Reported by Andreas Senft.)
-        DisposableBean.class.getName();
-    }
-
     /**
      * Set that holds all inner beans created by this factory that implement the DisposableBean interface, to be destroyed on destroySingletons.
      *
@@ -70,6 +60,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     // Implementation of AutowireCapableBeanFactory
     //---------------------------------------------------------------------
 
+    @Override
     public Object autowire(Class beanClass, int autowireMode, boolean dependencyCheck)
         throws BeansException {
         RootBeanDefinition bd = new RootBeanDefinition(beanClass, autowireMode, dependencyCheck);
@@ -82,6 +73,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
     }
 
+    @Override
     public void autowireBeanProperties(Object existingBean, int autowireMode, boolean dependencyCheck)
         throws BeansException {
         if (autowireMode != AUTOWIRE_BY_NAME && autowireMode != AUTOWIRE_BY_TYPE) {
@@ -91,6 +83,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         populateBean(existingBean.getClass().getName(), bd, new BeanWrapperImpl(existingBean));
     }
 
+    @Override
     public Object applyBeanPostProcessorsBeforeInitialization(Object bean, String name) throws BeansException {
         if (logger.isDebugEnabled()) {
             logger.debug("Invoking BeanPostProcessors before initialization of bean '" + name + "'");
@@ -108,6 +101,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return result;
     }
 
+    @Override
     public Object applyBeanPostProcessorsAfterInitialization(Object bean, String name) throws BeansException {
         if (logger.isDebugEnabled()) {
             logger.debug("Invoking BeanPostProcessors after initialization of bean '" + name + "'");
@@ -135,6 +129,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      *
      * @see #createBean(String, RootBeanDefinition, boolean).
      */
+    @Override
     protected Object createBean(String beanName, RootBeanDefinition mergedBeanDefinition)
         throws BeansException {
         return createBean(beanName, mergedBeanDefinition, true);
@@ -152,8 +147,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     protected Object createBean(String beanName, RootBeanDefinition mergedBeanDefinition,
         boolean allowEagerCaching) throws BeansException {
         if (logger.isDebugEnabled()) {
-            logger.debug("Creating instance of bean '" + beanName +
-                "' with merged definition [" + mergedBeanDefinition + "]");
+            logger.debug("Creating instance of bean '" + beanName + "' with merged definition [" + mergedBeanDefinition + "]");
         }
 
         if (mergedBeanDefinition.getDependsOn() != null) {
@@ -611,8 +605,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             // Convert from managed set. This is a special container that may
             // contain runtime bean references. May need to resolve references.
             return resolveManagedSet(beanName, mergedBeanDefinition, argName, (Set) value);
-        } else if (value instanceof ManagedMap ||
-            (value != null && MANAGED_LINKED_MAP_CLASS_NAME.equals(value.getClass().getName()))) {
+        } else if (value instanceof ManagedMap) {
             // Convert from managed map. This is a special container that may
             // contain runtime bean references. May need to resolve references.
             return resolveManagedMap(beanName, mergedBeanDefinition, argName, (Map) value);
@@ -739,6 +732,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
     }
 
+    @Override
     public void destroySingletons() {
         super.destroySingletons();
 
@@ -751,6 +745,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
     }
 
+    @Override
     protected void destroyBean(String beanName, Object bean) {
         if (logger.isDebugEnabled()) {
             logger.debug("Retrieving depending beans for bean '" + beanName + "'");
