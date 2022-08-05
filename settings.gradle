@@ -9,5 +9,5 @@
 
 rootProject.name = 'spring-simple-ioc'
 include 'spring-core-1.0.2'
-include 'v4'
+include 'v5'
 
