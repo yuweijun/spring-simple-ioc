@@ -1,7 +1,7 @@
 package org.springframework.beans.factory.xml;
 
 import org.springframework.beans.BeansException;
-import org.springframework.beans.LifecycleBean;
+import org.springframework.beans.factory.LifecycleBean;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.TestBean;
 import org.springframework.beans.factory.BeanFactory;

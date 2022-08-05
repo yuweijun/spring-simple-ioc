@@ -48,7 +48,7 @@ Spring IOC learning
 
 # v4 test
 
-1. AbstractBeanFactoryTest
+1. BeanFactoryTest
 2. XmlBeanFactoryTest
 3. XmlBeanDefinitionReaderTest
 
@@ -61,3 +61,7 @@ Spring IOC learning
 5. ApplicationContextAware 
 6. ResourceLoaderAware
 7. StaticApplicationContext
+
+# v5 test
+
+1. StaticApplicationContextTest

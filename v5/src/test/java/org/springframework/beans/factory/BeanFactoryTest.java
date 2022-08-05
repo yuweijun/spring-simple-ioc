@@ -2,7 +2,6 @@ package org.springframework.beans.factory;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
-import org.springframework.beans.LifecycleBean;
 import org.springframework.beans.MustBeInitialized;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyAccessExceptionsException;
@@ -34,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  * @author Rod Johnson
  * @version $Id: AbstractBeanFactoryTests.java,v 1.11 2004-03-18 03:01:20 trisberg Exp $
  */
-public class AbstractBeanFactoryTest {
+public class BeanFactoryTest {
 
     private DefaultListableBeanFactory parent;
 
@@ -45,7 +44,7 @@ public class AbstractBeanFactoryTest {
     }
 
     @BeforeEach
-    protected void setUp() {
+    protected void setUp() throws Exception {
         parent = new DefaultListableBeanFactory();
         Map m = new HashMap();
         m.put("name", "Albert");

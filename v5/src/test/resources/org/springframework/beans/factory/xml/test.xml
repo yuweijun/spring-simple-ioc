@@ -36,7 +36,7 @@
 	<bean id="mustBeInitialized" class="org.springframework.beans.MustBeInitialized">
 	</bean>
 
-	<bean id="lifecycle" class="org.springframework.beans.LifecycleBean">
+	<bean id="lifecycle" class="org.springframework.beans.factory.LifecycleBean">
 	</bean>
 
 	<!-- Factory beans are automatically treated differently -->
