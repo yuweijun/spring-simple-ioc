@@ -8,7 +8,7 @@
 	-->
 	<bean id="something" class="com.example.spring.simple.ioc.beans.factory.support.DependenciesBean"/>
 
-	<bean id="indexedBean" class="com.example.spring.simple.ioc.beans.factory.IndexedTestBean"/>
+	<bean id="indexedBean" class="com.example.spring.simple.ioc.beans.IndexedTestBean"/>
 
 	<!-- Overridden by next factory -->
 	<bean id="test" class="com.example.spring.simple.ioc.beans.TestBean">

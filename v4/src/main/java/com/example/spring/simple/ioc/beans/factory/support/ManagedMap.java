@@ -1,6 +1,6 @@
 package com.example.spring.simple.ioc.beans.factory.support;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 /**
  * Tag subclass used to hold managed Map values, which may include runtime bean references.
@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @see java.util.LinkedHashMap
  * @since 27-May-2003
  */
-public class ManagedMap extends HashMap {
+public class ManagedMap extends LinkedHashMap {
 
     public ManagedMap() {
     }

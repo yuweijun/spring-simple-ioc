@@ -38,3 +38,16 @@ Spring IOC learning
 1. BeanWrapperTest
 2. ClassPathResourceTest
 3. DefaultResourceLoaderTest
+
+# v4
+
+1. XmlBeanFactory
+2. DefaultXmlBeanDefinitionParser
+3. XmlBeanDefinitionParser
+4. XmlBeanDefinitionReader
+
+# v4 test
+
+1. AbstractBeanFactoryTest
+2. XmlBeanFactoryTest
+3. XmlBeanDefinitionReaderTest

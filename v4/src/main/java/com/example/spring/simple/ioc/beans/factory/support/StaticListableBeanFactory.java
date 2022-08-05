@@ -2,9 +2,9 @@ package com.example.spring.simple.ioc.beans.factory.support;
 
 import com.example.spring.simple.ioc.beans.BeansException;
 import com.example.spring.simple.ioc.beans.factory.BeanCreationException;
-import com.example.spring.simple.ioc.beans.factory.BeanFactory;
 import com.example.spring.simple.ioc.beans.factory.BeanNotOfRequiredTypeException;
 import com.example.spring.simple.ioc.beans.factory.FactoryBean;
+import com.example.spring.simple.ioc.beans.factory.ListableBeanFactory;
 import com.example.spring.simple.ioc.beans.factory.NoSuchBeanDefinitionException;
 import com.example.spring.simple.ioc.util.StringUtils;
 
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class StaticListableBeanFactory implements BeanFactory {
+public class StaticListableBeanFactory implements ListableBeanFactory {
 
     private final Map<String, Object> beans = new HashMap<>();
 
@@ -76,14 +76,17 @@ public class StaticListableBeanFactory implements BeanFactory {
         return aliases.toArray(new String[0]);
     }
 
+    @Override
     public int getBeanDefinitionCount() {
         return this.beans.size();
     }
 
+    @Override
     public String[] getBeanDefinitionNames() {
         return this.beans.keySet().toArray(new String[this.beans.keySet().size()]);
     }
 
+    @Override
     public String[] getBeanDefinitionNames(Class type) {
         List matches = new ArrayList();
         Set keys = this.beans.keySet();
@@ -98,10 +101,12 @@ public class StaticListableBeanFactory implements BeanFactory {
         return (String[]) matches.toArray(new String[matches.size()]);
     }
 
+    @Override
     public boolean containsBeanDefinition(String name) {
         return this.beans.containsKey(name);
     }
 
+    @Override
     public Map<String, Object> getBeansOfType(Class type, boolean includePrototypes, boolean includeFactoryBeans) {
         Map<String, Object> matches = new HashMap<>();
         Set<String> keys = this.beans.keySet();

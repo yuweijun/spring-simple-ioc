@@ -1,4 +1,4 @@
-package com.example.spring.simple.ioc.beans.factory;
+package com.example.spring.simple.ioc.beans;
 
 public class Employee extends com.example.spring.simple.ioc.beans.TestBean {
 	

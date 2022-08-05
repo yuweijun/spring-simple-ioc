@@ -33,10 +33,10 @@
 	</bean>
 
 	<!-- Test of lifecycle callbacks -->
-	<bean id="mustBeInitialized" class="com.example.spring.simple.ioc.beans.factory.MustBeInitialized">
+	<bean id="mustBeInitialized" class="com.example.spring.simple.ioc.beans.MustBeInitialized">
 	</bean>
 
-	<bean id="lifecycle" class="com.example.spring.simple.ioc.beans.factory.LifecycleBean">
+	<bean id="lifecycle" class="com.example.spring.simple.ioc.beans.LifecycleBean">
 	</bean>
 
 	<!-- Factory beans are automatically treated differently -->

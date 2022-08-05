@@ -19,4 +19,13 @@ public class ClassPathResourceTest {
         System.out.println(url);
     }
 
+    @Test
+    public void test() throws IOException {
+        final String dtd = "com/example/spring/simple/ioc/beans/factory/xml/spring-beans.dtd";
+        final ClassPathResource classPathResource = new ClassPathResource(dtd);
+        System.out.println(classPathResource);
+        final File file = classPathResource.getFile();
+        System.out.println(file);
+    }
+
 }

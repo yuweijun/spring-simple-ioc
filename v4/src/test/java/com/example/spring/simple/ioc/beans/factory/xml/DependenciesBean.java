@@ -1,6 +1,4 @@
- 
-
-package com.example.spring.simple.ioc.beans.factory.support;
+package com.example.spring.simple.ioc.beans.factory.xml;
 
 import com.example.spring.simple.ioc.beans.TestBean;
 

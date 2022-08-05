@@ -1,4 +1,4 @@
-package com.example.spring.simple.ioc.beans.factory;
+package com.example.spring.simple.ioc.beans;
 
 import com.example.spring.simple.ioc.core.io.Resource;
 
