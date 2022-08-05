@@ -51,3 +51,13 @@ Spring IOC learning
 1. AbstractBeanFactoryTest
 2. XmlBeanFactoryTest
 3. XmlBeanDefinitionReaderTest
+
+# v5
+
+1. ApplicationContext
+2. MessageSource 
+3. ApplicationEvent 
+4. ApplicationListener
+5. ApplicationContextAware 
+6. ResourceLoaderAware
+7. StaticApplicationContext

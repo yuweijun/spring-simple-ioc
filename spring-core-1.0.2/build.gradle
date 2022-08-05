@@ -29,8 +29,8 @@ dependencies {
     testImplementation 'org.easymock:easymockclassextension:2.3'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
+group = 'org.springframework'
+version = '1.0.2'
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
