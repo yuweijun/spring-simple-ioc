@@ -46,6 +46,7 @@ public abstract class PropertyResourceConfigurer implements BeanFactoryPostProce
 	  this.order = order;
 	}
 
+	@Override
 	public int getOrder() {
 	  return order;
 	}

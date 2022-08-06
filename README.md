@@ -65,3 +65,4 @@ Spring IOC learning
 # v5 test
 
 1. StaticApplicationContextTest
+2. PropertyResourceConfigurerTest

@@ -38,6 +38,7 @@ import java.util.Properties;
  */
 public class PropertyOverrideConfigurer extends PropertyResourceConfigurer {
 
+	@Override
 	protected void processProperties(ConfigurableListableBeanFactory beanFactory, Properties props)
 			throws BeansException {
 		for (Iterator it = props.keySet().iterator(); it.hasNext();) {

@@ -130,6 +130,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * Return the parent context, or null if there is no parent
 	 * (that is, this context is the root of the context hierarchy).
 	 */
+	@Override
 	public ApplicationContext getParent() {
 		return parent;
 	}
@@ -145,6 +146,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Return a friendly name for this context.
 	 */
+	@Override
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -152,6 +154,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Return the timestamp (ms) when this context was first loaded.
 	 */
+	@Override
 	public long getStartupDate() {
 		return startupTime;
 	}
@@ -164,6 +167,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @param event event to publish (may be application-specific or a
 	 * standard framework event)
 	 */
+	@Override
 	public void publishEvent(ApplicationEvent event) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Publishing event in context [" + getDisplayName() + "]: " + event.toString());
@@ -179,10 +183,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	// Implementation of ConfigurableApplicationContext
 	//---------------------------------------------------------------------
 
+	@Override
 	public void setParent(ApplicationContext parent) {
 		this.parent = parent;
 	}
 
+	@Override
 	public void addBeanFactoryPostProcessor(BeanFactoryPostProcessor beanFactoryPostProcessor) {
 		this.beanFactoryPostProcessors.add(beanFactoryPostProcessor);
 	}
@@ -202,6 +208,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * has already been loaded and reloading is forbidden
 	 * @throws BeansException if the bean factory could not be initialized
 	 */
+	@Override
 	public void refresh() throws BeansException {
 		this.startupTime = System.currentTimeMillis();
 
@@ -362,6 +369,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	/**
 	 * Destroy the singletons in the bean factory of this application context.
 	 */
+	@Override
 	public void close() {
 		logger.info("Closing application context [" + getDisplayName() + "]");
 
@@ -378,22 +386,27 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	// Implementation of BeanFactory
 	//---------------------------------------------------------------------
 
+	@Override
 	public Object getBean(String name) throws BeansException {
 		return getBeanFactory().getBean(name);
 	}
 
+	@Override
 	public Object getBean(String name, Class requiredType) throws BeansException {
 		return getBeanFactory().getBean(name, requiredType);
 	}
 
+	@Override
 	public boolean containsBean(String name) {
 		return getBeanFactory().containsBean(name);
 	}
 
+	@Override
 	public boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
 		return getBeanFactory().isSingleton(name);
 	}
 
+	@Override
 	public String[] getAliases(String name) throws NoSuchBeanDefinitionException {
 		return getBeanFactory().getAliases(name);
 	}
@@ -403,22 +416,27 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	// Implementation of ListableBeanFactory
 	//---------------------------------------------------------------------
 
+	@Override
 	public int getBeanDefinitionCount() {
 		return getBeanFactory().getBeanDefinitionCount();
 	}
 
+	@Override
 	public String[] getBeanDefinitionNames() {
 		return getBeanFactory().getBeanDefinitionNames();
 	}
 
+	@Override
 	public String[] getBeanDefinitionNames(Class type) {
 		return getBeanFactory().getBeanDefinitionNames(type);
 	}
 
+	@Override
 	public boolean containsBeanDefinition(String name) {
 		return getBeanFactory().containsBeanDefinition(name);
 	}
 
+	@Override
 	public Map getBeansOfType(Class type, boolean includePrototypes, boolean includeFactoryBeans)
 			throws BeansException {
 		return getBeanFactory().getBeansOfType(type, includePrototypes, includeFactoryBeans);
@@ -429,6 +447,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	// Implementation of HierarchicalBeanFactory
 	//---------------------------------------------------------------------
 
+	@Override
 	public BeanFactory getParentBeanFactory() {
 		return getParent();
 	}
@@ -448,14 +467,17 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	// Implementation of MessageSource
 	//---------------------------------------------------------------------
 
+	@Override
 	public String getMessage(String code, Object args[], String defaultMessage, Locale locale) {
 		return this.messageSource.getMessage(code, args, defaultMessage, locale);
 	}
 
+	@Override
 	public String getMessage(String code, Object args[], Locale locale) throws NoSuchMessageException {
 		return this.messageSource.getMessage(code, args, locale);
 	}
 
+	@Override
 	public String getMessage(MessageSourceResolvable resolvable, Locale locale) throws NoSuchMessageException {
 		return this.messageSource.getMessage(resolvable, locale);
 	}

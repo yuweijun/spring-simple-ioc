@@ -41,6 +41,7 @@ public class ApplicationContextAwareProcessor implements BeanPostProcessor {
 			}
 			((ResourceLoaderAware) bean).setResourceLoader(this.applicationContext);
 		}
+
 		if (bean instanceof ApplicationContextAware) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Invoking setApplicationContext on ApplicationContextAware bean '" + name + "'");

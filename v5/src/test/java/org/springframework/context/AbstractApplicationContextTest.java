@@ -49,7 +49,7 @@ public abstract class AbstractApplicationContextTest extends ListableBeanFactory
 
     @Test
     public void testContextAwareSingletonWasCalledBack() throws Exception {
-        ACATest aca = (ACATest) applicationContext.getBean("aca");
+        ApplicationContextAwareTest aca = (ApplicationContextAwareTest) applicationContext.getBean("aca");
         assertTrue("has had context set", aca.getApplicationContext() == applicationContext);
         Object aca2 = applicationContext.getBean("aca");
         assertTrue("Same instance", aca == aca2);
@@ -58,8 +58,9 @@ public abstract class AbstractApplicationContextTest extends ListableBeanFactory
 
     @Test
     public void testContextAwarePrototypeWasCalledBack() throws Exception {
-        ACATest aca = (ACATest) applicationContext.getBean("aca-prototype");
+        ApplicationContextAwareTest aca = (ApplicationContextAwareTest) applicationContext.getBean("aca-prototype");
         assertTrue("has had context set", aca.getApplicationContext() == applicationContext);
+
         Object aca2 = applicationContext.getBean("aca-prototype");
         assertTrue("NOT Same instance", aca != aca2);
         assertTrue("Says is prototype", !applicationContext.isSingleton("aca-prototype"));
