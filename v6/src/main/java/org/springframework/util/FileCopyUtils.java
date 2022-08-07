@@ -1,0 +1,188 @@
+package org.springframework.util;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.io.Writer;
+
+/**
+ * Simple utility methods for file and stream copying. All copy methods use a block size of 4096 bytes.
+ *
+ * <p>Mainly for use within the framework,
+ * but also useful for application code.
+ *
+ * @author Juergen Hoeller
+ * @since 06.10.2003
+ */
+public abstract class FileCopyUtils {
+
+    public static final int BLOCK_SIZE = 4096;
+    private static final Log logger = LogFactory.getLog(FileCopyUtils.class);
+
+    //---------------------------------------------------------------------
+    // Copy methods for java.io.File
+    //---------------------------------------------------------------------
+
+    /**
+     * Copy the contents of the given input File to the given output File.
+     *
+     * @param in  the file to copy from
+     * @param out the file to copy to
+     * @throws IOException in case of I/O errors
+     */
+    public static void copy(File in, File out) throws IOException {
+        copy(new BufferedInputStream(new FileInputStream(in)), new BufferedOutputStream(new FileOutputStream(out)));
+    }
+
+    /**
+     * Copy the contents of the given byte array to the given output File.
+     *
+     * @param in  the byte array to copy from
+     * @param out the file to copy to
+     * @throws IOException in case of I/O errors
+     */
+    public static void copy(byte[] in, File out) throws IOException {
+        ByteArrayInputStream inStream = new ByteArrayInputStream(in);
+        OutputStream outStream = new BufferedOutputStream(new FileOutputStream(out));
+        copy(inStream, outStream);
+    }
+
+    /**
+     * Copy the contents of the given input File into a new byte array.
+     *
+     * @param in the file to copy from
+     * @return the new byte array that has been copied to
+     * @throws IOException in case of I/O errors
+     */
+    public static byte[] copyToByteArray(File in) throws IOException {
+        return copyToByteArray(new BufferedInputStream(new FileInputStream(in)));
+    }
+
+    //---------------------------------------------------------------------
+    // Copy methods for java.io.InputStream / java.io.OutputStream
+    //---------------------------------------------------------------------
+
+    /**
+     * Copy the contents of the given InputStream to the given OutputStream. Closes both streams when done.
+     *
+     * @param in  the stream to copy from
+     * @param out the stream to copy to
+     * @throws IOException in case of I/O errors
+     */
+    public static void copy(InputStream in, OutputStream out) throws IOException {
+        try {
+            byte[] buffer = new byte[BLOCK_SIZE];
+            int nrOfBytes = -1;
+            while ((nrOfBytes = in.read(buffer)) != -1) {
+                out.write(buffer, 0, nrOfBytes);
+            }
+            out.flush();
+        } finally {
+            try {
+                in.close();
+            } catch (IOException ex) {
+                logger.warn("Could not close InputStream", ex);
+            }
+            try {
+                out.close();
+            } catch (IOException ex) {
+                logger.warn("Could not close OutputStream", ex);
+            }
+        }
+    }
+
+    /**
+     * Copy the contents of the given byte array to the given OutputStream.
+     *
+     * @param in  the byte array to copy from
+     * @param out the OutputStream to copy to
+     * @throws IOException in case of I/O errors
+     */
+    public static void copy(byte[] in, OutputStream out) throws IOException {
+        copy(new ByteArrayInputStream(in), out);
+    }
+
+    /**
+     * Copy the contents of the given InputStream into a new byte array.
+     *
+     * @param in the stream to copy from
+     * @return the new byte array that has been copied to
+     * @throws IOException in case of I/O errors
+     */
+    public static byte[] copyToByteArray(InputStream in) throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        copy(in, out);
+        return out.toByteArray();
+    }
+
+    //---------------------------------------------------------------------
+    // Copy methods for java.io.Reader / java.io.Writer
+    //---------------------------------------------------------------------
+
+    /**
+     * Copy the contents of the given Reader to the given Writer. Closes both when done.
+     *
+     * @param in  the Reader to copy from
+     * @param out the Writer to copy to
+     * @throws IOException in case of I/O errors
+     */
+    public static void copy(Reader in, Writer out) throws IOException {
+        try {
+            char[] buffer = new char[BLOCK_SIZE];
+            int nrOfBytes = -1;
+            while ((nrOfBytes = in.read(buffer)) != -1) {
+                out.write(buffer, 0, nrOfBytes);
+            }
+            out.flush();
+        } finally {
+            try {
+                in.close();
+            } catch (IOException ex) {
+                logger.warn("Could not close Reader", ex);
+            }
+            try {
+                out.close();
+            } catch (IOException ex) {
+                logger.warn("Could not close Writer", ex);
+            }
+        }
+    }
+
+    /**
+     * Copy the contents of the given String to the given output Writer.
+     *
+     * @param in  the String to copy from
+     * @param out the Writer to copy to
+     * @throws IOException in case of I/O errors
+     */
+    public static void copy(String in, Writer out) throws IOException {
+        copy(new StringReader(in), out);
+    }
+
+    /**
+     * Copy the contents of the given Reader into a String.
+     *
+     * @param in the reader to copy from
+     * @return the String that has been copied to
+     * @throws IOException in case of I/O errors
+     */
+    public static String copyToString(Reader in) throws IOException {
+        StringWriter out = new StringWriter();
+        copy(in, out);
+        return out.toString();
+    }
+
+}

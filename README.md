@@ -61,8 +61,18 @@ Spring IOC learning
 5. ApplicationContextAware 
 6. ResourceLoaderAware
 7. StaticApplicationContext
+8. PropertyPlaceholderConfigurer
 
 # v5 test
 
 1. StaticApplicationContextTest
 2. PropertyResourceConfigurerTest
+
+# v6
+
+1. ClassPathXmlApplicationContext
+
+# v6 test
+
+1. ClassPathXmlApplicationContextTest
+
