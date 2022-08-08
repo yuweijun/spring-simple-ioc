@@ -11,4 +11,5 @@ rootProject.name = 'spring-simple-ioc'
 include 'spring-beans-3.2.18'
 include 'spring-core-1.0.2'
 include 'v7'
+include 'v8'
 
