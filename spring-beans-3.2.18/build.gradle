@@ -1,0 +1,80 @@
+apply plugin: "java"
+
+group = "org.springframework"
+version = "3.2.18.RELEASE"
+
+ext.aspectjVersion = "1.7.4"
+ext.hsqldbVersion = "1.8.0.10"
+ext.junitVersion = "4.11"
+ext.slf4jVersion = "1.6.6"
+ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
+
+def asmVersion = "5.0.4"
+def cglibVersion = "3.1"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+sourceSets.test.resources.srcDirs = ["src/test/resources", "src/test/java"]
+
+test {
+    systemProperty("java.awt.headless", "true")
+    systemProperty("testGroups", project.properties.get("testGroups"))
+    scanForTestClasses = false
+    // Do not include "**/*Test.class" since some *Test classes are broken.
+    include(["**/*Tests.class"])
+    // Since we set scanForTestClasses to false, we need to filter out inner
+    // classes with the "$" pattern; otherwise, using -Dtest.single=MyTests to
+    // run MyTests by itself will fail if MyTests contains any inner classes.
+    exclude(["**/Abstract*.class", '**/*$*'])
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/libs-release" }
+}
+
+dependencies {
+
+    implementation("aopalliance:aopalliance:1.0")
+    implementation("backport-util-concurrent:backport-util-concurrent:3.0")
+    implementation("cglib:cglib:${cglibVersion}")
+    implementation("com.jamonapi:jamon:2.75")
+    implementation("commons-logging:commons-logging:1.1.3")
+    implementation("commons-pool:commons-pool:1.5.7")
+    implementation("javax.ejb:ejb-api:3.0")
+    implementation("javax.el:el-api:1.0")
+    implementation("javax.inject:javax.inject:1")
+    implementation("javax.persistence:persistence-api:1.0")
+    implementation("javax.validation:validation-api:1.0.0.GA")
+    implementation("javax.annotation:javax.annotation-api:1.3.2")
+    implementation("joda-time:joda-time:2.2")
+    implementation("log4j:log4j:1.2.17")
+    implementation("net.sf.jopt-simple:jopt-simple:3.3")
+    implementation("org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1")
+    implementation("org.aspectj:aspectjweaver:${aspectjVersion}")
+    implementation("org.beanshell:bsh:2.0b4")
+    implementation("org.codehaus.groovy:groovy-all:1.8.9")
+    implementation("org.hibernate:hibernate-validator:4.3.1.Final")
+    implementation("org.jruby:jruby:1.7.12")
+    implementation("org.ow2.asm:asm-commons:${asmVersion}")
+    implementation("org.ow2.asm:asm:${asmVersion}")
+    implementation("org.springframework:spring-aop:${version}")
+    implementation("org.springframework:spring-context:${version}")
+    implementation("org.springframework:spring-core:${version}")
+    testImplementation("org.springframework:spring-test:${version}")
+    testImplementation("commons-dbcp:commons-dbcp:1.3")
+    testImplementation("javax.inject:javax.inject-tck:1")
+    testImplementation("junit:junit:4.13.1")
+    testImplementation("log4j:log4j:1.2.17")
+    testImplementation("org.codehaus.woodstox:wstx-asl:3.2.7") { transitive = false }
+    testImplementation("org.hamcrest:hamcrest-all:1.3")
+    testImplementation("org.mockito:mockito-core:1.9.5")
+    testImplementation("org.slf4j:slf4j-api:${slf4jVersion}")
+    testImplementation("xmlunit:xmlunit:1.3")
+    testImplementation("javax.xml.bind:jaxb-api:2.2.9")
+
+
+}
+
+
